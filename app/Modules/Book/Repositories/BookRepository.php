@@ -41,8 +41,8 @@ class BookRepository extends Repository
         try {
             return $this->model->where('state',1)->get();
         }
-        catch (Exception $exc) {
-            throw new BaseException(1001);
+        catch (\Exception $exc) {
+            throw new \Exception($exc->getMessage());
         }
     }
 
@@ -50,12 +50,10 @@ class BookRepository extends Repository
     public function show($id)
     {
         try {
-            $record = $this->model->findOrFail($id);
-            $record->update(['views',$record->views++]);
             return $this->model->findOrFail($id);
         }
-        catch (Exception $exc) {
-            throw new BaseException(1005);
+        catch (\Exception $exc) {
+            throw new \Exception($exc->getMessage());
         }
     }
 
@@ -73,8 +71,8 @@ class BookRepository extends Repository
             return $result;
 
         }
-        catch (Exception $exc) {
-            throw new BaseException(1005);
+        catch (\Exception $exc) {
+            throw new \Exception($exc->getMessage());
         }
     }
 
@@ -86,8 +84,8 @@ class BookRepository extends Repository
             return $result;
 
         }
-        catch (Exception $exc) {
-            throw new BaseException(1005);
+        catch (\Exception $exc) {
+            throw new \Exception($exc->getMessage());
         }
     }
 }

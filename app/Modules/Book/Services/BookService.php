@@ -83,11 +83,11 @@ class BookService extends Services
         try {
             return $this->bookRepo->dataTable();
         }
-        catch (BaseException $exc) {
+        catch (\Exception $exc) {
             throw $exc;
         }
         catch (\Exception $exc) {
-            throw new BaseException(1021, $exc->getMessage());
+            throw new \Exception($exc->getMessage());
         }
     }
 
@@ -96,8 +96,8 @@ class BookService extends Services
         try {
             return $this->bookRepo->show($id);
         }
-        catch (Exception $exc) {
-            throw new BaseException(1005);
+        catch (\Exception $exc) {
+            throw new \Exception($exc->getMessage());
         }
     }
 
@@ -106,8 +106,8 @@ class BookService extends Services
         try {
             return $this->bookRepo->prev($id);
         }
-        catch (Exception $exc) {
-            throw new BaseException(1005);
+        catch (\Exception $exc) {
+            throw new \Exception($exc->getMessage());
         }
     }
 
@@ -116,8 +116,8 @@ class BookService extends Services
         try {
             return $this->bookRepo->next($id);
         }
-        catch (Exception $exc) {
-            throw new BaseException(1005);
+        catch (\Exception $exc) {
+            throw new \Exception($exc->getMessage());
         }
     }
 
@@ -126,8 +126,8 @@ class BookService extends Services
         try {
             return $this->bookRepo->getSearchBooks($keyword, $status);
         }
-        catch (Exception $exc) {
-            throw new BaseException(1005);
+        catch (\Exception $exc) {
+            throw new \Exception($exc->getMessage());
         }
     }
 
@@ -136,8 +136,8 @@ class BookService extends Services
         try {
             return $this->bookRepo->getPopularBooks($limit, $status);
         }
-        catch (Exception $exc) {
-            throw new BaseException(1005);
+        catch (\Exception $exc) {
+            throw new \Exception($exc->getMessage());
         }
     }
 
@@ -146,8 +146,8 @@ class BookService extends Services
         try {
             return $this->bookRepo->findFromSlug($slug);
         }
-        catch (Exception $exc) {
-            throw new BaseException(1005);
+        catch (\Exception $exc) {
+            throw new \Exception($exc->getMessage());
         }
     }
 }

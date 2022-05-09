@@ -55,7 +55,12 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            return $this->bookService->show($id);
+        }
+        catch (\Exception $exc) {
+            throw new \Exception($exc->getMessage());
+        }
     }
 
     /**
