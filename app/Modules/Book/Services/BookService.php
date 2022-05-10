@@ -5,9 +5,11 @@ namespace App\Modules\Book\Services;
 use App\Modules\Book\Repositories\BookRepository;
 use Auth;
 use App\Services\Services;
+use App\Modules\Book\Transformers\BookTransformer;
 
 class BookService extends Services
 {
+    use BookTransformer;
     protected $bookRepo;
 
     public function __construct()
@@ -15,10 +17,22 @@ class BookService extends Services
         $this->bookRepo = new BookRepository();
     }
 
+    public function allActiveOwn()
+    {
+        try {
+            $books = $this->bookRepo->allActiveOwn();
+            return $this->transformBook($books);
+        }
+        catch (\Exception $exc) {
+            throw new Exception($exc->getMessage());
+        }
+    }
+
     public function allActive()
     {
         try {
-            return $this->bookRepo->allActive();
+            $books = $this->bookRepo->allActive();
+            return $this->transformBook($books);
         }
         catch (\Exception $exc) {
             throw new Exception($exc->getMessage());
@@ -28,17 +42,20 @@ class BookService extends Services
     public function create(object $request)
     {
         try {
+            $formatedArray = $request->all();
             if($request->hasFile('cover')){
                 $image = $request->file('cover');
                 $imageNamePath = $this->bookRepo->resizeAndStore($image,'book-covers',770,460);
-                $request->request->set('image', $imageNamePath);
+                $formatedArray['image']=$imageNamePath;
             }
             if(!isset($request->state)){
-                $request->request->set('state', 0);
+                $formatedArray['state']=1;
             }
-            $request->request->set('hits', 0);
-            if ($book = $this->bookRepo->create($request->all())) {
-                return response(['message'=> 'Book Added!'],200);
+            $formatedArray['hits']=0;
+            $formatedArray['user_id']=$request->user()->id;
+
+            if ($book = $this->bookRepo->create($formatedArray)) {
+                return response()->json(['message'=> 'Book Added!'],200);
             }
             return $this->_server_error();
         }
@@ -55,8 +72,9 @@ class BookService extends Services
                 $imageNamePath = $this->bookRepo->resizeAndStore($image,'book-covers',770,460);
                 $request->request->set('image', $imageNamePath);
             }
+            $request->request->set('hits', 123);
             if ($this->bookRepo->update($request->all(),$id)) {
-                return response(['message'=> 'Book Updated!'],200);
+                return response()->json(['message'=> 'Book Updated!'],200);
             }
             return $this->_server_error();
         }
@@ -69,7 +87,7 @@ class BookService extends Services
     {
         try {
             if ($this->bookRepo->delete($id)) {
-                return response(['message'=> 'Book Deleted!'],200);
+                return response()->json(['message'=> 'Book Deleted!'],200);
             }
             return $this->_server_error();
         }

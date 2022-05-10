@@ -24,6 +24,22 @@ class BookController extends Controller
     public function index()
     {
         try {
+            return $this->bookService->allActiveOwn();
+        }
+        catch (\Exception $exc) {
+            throw new Exception($exc->getMessage());
+        }
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAll()
+    {
+        try {
             return $this->bookService->allActive();
         }
         catch (\Exception $exc) {

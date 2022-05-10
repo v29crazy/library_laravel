@@ -27,7 +27,7 @@ class Repository
             return $this->model->all();
         }
         catch (\Exception $exc) {
-            throw new \Exception($exc->getMessage()>getMessage());
+            throw new \Exception($exc->getMessage());
         }
     }
 
@@ -38,7 +38,7 @@ class Repository
             return $this->model->create($data);
         }
         catch (\Exception $exc) {
-            throw new \Exception($exc->getMessage()>getMessage());
+            throw new \Exception($exc->getMessage());
         }
     }
 
@@ -50,7 +50,7 @@ class Repository
             return $record->update($data);
         }
         catch (\Exception $exc) {
-            throw new \Exception($exc->getMessage()>getMessage());
+            throw new \Exception($exc->getMessage());
         }
     }
 
@@ -61,7 +61,7 @@ class Repository
             return $this->model->destroy($id);
         }
         catch (\Exception $exc) {
-            throw new \Exception($exc->getMessage()>getMessage());
+            throw new \Exception($exc->getMessage());
         }
     }
 

@@ -18,6 +18,13 @@ class AuthenticationController extends Controller
         if(!Auth::attempt($login)){
             return response(['message' => 'Invalid login credentials!'], 401);
         }
+        if(!Auth::user()->is_active){
+            $userToken = Auth::user()->token();
+            if($userToken){
+                Auth::user()->token()->delete();
+            }
+            return response(['message' => 'User Disabled!'], 401);
+        }
         $user = Auth::user();
         $token = $user->createToken($user->name);
 
@@ -29,6 +36,7 @@ class AuthenticationController extends Controller
             'updated_at' => $user->updated_at,
             'token' => $token->accessToken,
             'token_expired_at' => $token->token->expires_at,
+            'is_admin' => $user->is_admin,
         ],200);
     }
 
@@ -45,6 +53,7 @@ class AuthenticationController extends Controller
             return response(['message'=> 'Logged out from alll device!!'],200);
         }
         $userToken = $user->token();
+
         $userToken->delete();
             return response(['message'=> 'Logged out successfully!!'],200);
     }

@@ -46,6 +46,17 @@ class BookRepository extends Repository
         }
     }
 
+    // Get all instances of model
+    public function allActiveOwn()
+    {
+        try {
+            return $this->model->where([['state','=',1],['user_id','=',1]])->get();
+        }
+        catch (\Exception $exc) {
+            throw new \Exception($exc->getMessage());
+        }
+    }
+
     // show the record with the given id
     public function show($id)
     {

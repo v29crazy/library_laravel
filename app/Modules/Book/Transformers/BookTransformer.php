@@ -6,18 +6,23 @@ use App\Modules\Book\Models\Book;
 
 trait BookTransformer
 {
-    public function transformBook(Book $book)
+    public function transformBook(object $books)
     {
-        return [
-            'id'      => (int) $book->id,
-            'title'   => $book->title,
-            'image'   => $book->image,
-            'description'   => $book->description,
-            'content'   => $book->content,
-            'status'  => (object) [
-                'status_value' => $book->state
-            ],
-        ];
+        $formattedBooks=[];
+
+        foreach ($books as $book){
+            $book->user_id= $book->user->name;
+            $formatBook['id'] = (int) $book->id;
+            $formatBook['title']   = $book->title;
+            $formatBook['image']   = $book->image;
+            $formatBook['description'] = $book->description;
+            $formatBook['content'] = $book->content;
+            $formatBook['user_id'] = $book->user_id;
+            $formatBook['user_name'] = $book->user->name;
+            array_push($formattedBooks, $formatBook);
+        }
+
+        return $formattedBooks;
     }
 
 }

@@ -27,7 +27,6 @@ class CreateRequest extends FormRequest
             'title' => 'required|max:255',
             'description' => 'required',
             'content' => 'required',
-            'user_id' => 'required|exists:users,id',
 //            'cover' => 'required|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
         ];
     }

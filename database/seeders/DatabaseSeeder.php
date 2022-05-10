@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         \App\Models\User::factory(5)->create();
         $this->call(BookSeeder::class);
-        \App\Modules\Book\Models\Book::factory(15)->create();
+        \App\Modules\Book\Models\Book::factory(75)->create();
 
         Schema::enableForeignKeyConstraints();
     }
